@@ -6,15 +6,24 @@ class Unit(models.Model):
     name = models.CharField(max_length=200)
     symbol = models.CharField(max_length=200)
 
+    def __str__(self):
+        return self.name
+
 
 class AppUser(AbstractUser):
     login_email = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.login_email
 
 
 class Products(models.Model):
     name = models.CharField(max_length=200)
     unit = models.ForeignKey(Unit, related_name="+")
     quantity = models.FloatField()
+
+    def __str__(self):
+        self.name
 
 
 class Address(models.Model):
@@ -25,6 +34,9 @@ class Address(models.Model):
     address_line2 = models.CharField(max_length=200)
     zip = models.IntegerField()
 
+    def __str__(self):
+        return self.country + " , " + self.city + "," + self.address_line1
+
 
 class Buyer(AppUser):
     addresses = models.ManyToManyField(Address, related_name="+")
@@ -33,10 +45,16 @@ class Buyer(AppUser):
     class Meta:
         verbose_name = "Buyer"
 
+    def __str__(self):
+        return self.login_email
+
 
 class Offers(models.Model):
     price_per_quantity = models.FloatField()
     product = models.ForeignKey(Products, related_name="+")
+
+    def __str__(self):
+        return self.price_per_quantity + "/" + self.product.name
 
 
 class Seller(AppUser):
@@ -47,3 +65,6 @@ class Seller(AppUser):
 
     class Meta:
         verbose_name = "Seller"
+
+    def __str__(self):
+        return self.login_email
