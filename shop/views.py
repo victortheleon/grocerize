@@ -23,5 +23,6 @@ def index(request):
         "+"+seller.active_address.state+"+"+seller.active_address.country+"+"
                                                    +str(seller.active_address.zip) for seller in sellers])
     url = REQUEST_URL+urllib.urlencode(REQUEST_PARAMETERS)
+    print url
     res = urllib2.urlopen(url).read()
-    return HttpResponse(res)
+    return HttpResponse(res, content_type='application/JSON')
